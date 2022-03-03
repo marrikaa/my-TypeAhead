@@ -2,44 +2,24 @@ import React,{ useState,useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import './SearchBar.css'
-import axios from 'axios';
+import fetchUsers from '../actions/actions';
 
 function SearchBar ({placeholder}){
     const[searchUser,setSearchUser]=useState("");
     const[users, setUsers]=useState([]);
-    const my_token="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";
-    const my_user="marrikaa";
-    const url='https://api.github.com/search/users?q=';
 
-    const handleUserInput= (event)=>{
+    const handleUserInput = (event)=>{
         const userInput=event.target.value;
+        fetchUsers(userInput).then(filteredUsers => {
+            setUsers(filteredUsers);
+        });
+
         setSearchUser(userInput)
     }
 
-    const fetchUsers = () => {
-        axios.get(url + searchUser, {
-            'auth': {
-                'username': my_user,
-                'token': my_token,
-            },
-            'headers': {
-                'Authorization': `token ${my_token}` 
-            }
-        })
-        .then(response => {
-            const users = response.data.items;
-            const updatedUsers = users.map(users => {
-                return {
-                    ...users,
-                }
-            })
-            setUsers(updatedUsers)
-        })
-    }
-
     useEffect(()=>{
-        fetchUsers(url + searchUser)
-    },[url + searchUser]);
+        fetchUsers(searchUser)
+    },[searchUser]);
   
     const clearInput =()=>{
         setUsers([]);
