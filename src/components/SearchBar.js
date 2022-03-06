@@ -1,7 +1,7 @@
 import React,{ useState,useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import './SearchBar.css'
+import '../index.css'
 import fetchUsers from '../actions/actions';
 
 function SearchBar ({placeholder}){
