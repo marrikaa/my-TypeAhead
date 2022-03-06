@@ -3,6 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import '../index.css'
 import fetchUsers from '../actions/actions';
+import SearchResultItems from './SearchResultItems'
 
 function SearchBar ({placeholder}){
     const[searchUser,setSearchUser]=useState("");
@@ -17,10 +18,6 @@ function SearchBar ({placeholder}){
         setSearchUser(userInput)
     }
 
-    useEffect(()=>{
-        fetchUsers(searchUser)
-    },[searchUser]);
-  
     const clearInput =()=>{
         setUsers([]);
         setSearchUser("");
@@ -33,23 +30,9 @@ function SearchBar ({placeholder}){
                 <div className='searchIcon'>
                     {searchUser.length ===0 ?<SearchIcon /> : <CloseIcon id="clearBtn" onClick={clearInput} />}
                 </div>
-            </div> 
-            {
-                users.length !==0 && (
-                    <div className="dataResult">  
-                        {
-                            users.map((value,key) => {
-                                return (
-                                    <a className='dataItem' href={value.html_url} target="_blank">
-                                        <img src={value.avatar_url}></img>
-                                        <p>{ value.login }</p>
-                                    </a>
-                                )
-                            })
-                        }
-                    </div>
-                )
-            }    
+            </div>
+
+            <SearchResultItems users={ users } /> 
         </div>
     )
 }
